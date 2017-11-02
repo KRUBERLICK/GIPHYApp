@@ -11,22 +11,39 @@
 //
 
 import UIKit
+import ObjectMapper
 
 enum BrowseGIFs {
-    // MARK: Use cases
-
     enum FetchGIFs {
         struct Request {
             let query: String
+        }
+
+        struct Response: ImmutableMappable {
+            let results: [GIF]
+
+            init(map: Map) throws {
+                results = (try? map.value("data")) ?? []
+            }
+        }
+
+        struct ViewModel {
+            let url: URL?
+            let localGIFData: Data?
         }
     }
 
     enum Something {
         struct Request {
+
         }
+
         struct Response {
+
         }
+
         struct ViewModel {
+            
         }
     }
 }

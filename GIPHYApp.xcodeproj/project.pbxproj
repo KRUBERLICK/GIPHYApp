@@ -34,6 +34,8 @@
 		5BBE7BD71FAB107A0048EE1B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BBE7BD51FAB107A0048EE1B /* Main.storyboard */; };
 		5BBE7BD91FAB107A0048EE1B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BBE7BD81FAB107A0048EE1B /* Assets.xcassets */; };
 		5BBE7BDC1FAB107A0048EE1B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BBE7BDA1FAB107A0048EE1B /* LaunchScreen.storyboard */; };
+		5BF3C0B61FAB848600CCC7FA /* GIPHYAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF3C0B51FAB848600CCC7FA /* GIPHYAPIService.swift */; };
+		5BF3C0B91FAB85E200CCC7FA /* GIFSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF3C0B81FAB85E200CCC7FA /* GIFSearchResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +80,8 @@
 		5BBE7BD81FAB107A0048EE1B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BBE7BDB1FAB107A0048EE1B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5BBE7BDD1FAB107A0048EE1B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5BF3C0B51FAB848600CCC7FA /* GIPHYAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIPHYAPIService.swift; sourceTree = "<group>"; };
+		5BF3C0B81FAB85E200CCC7FA /* GIFSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFSearchResponse.swift; sourceTree = "<group>"; };
 		655E4748DCCF2C443152A964 /* Pods_GIPHYAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GIPHYAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CCC27F7C3B07F11505C6238 /* Pods-GIPHYAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GIPHYAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GIPHYAppTests/Pods-GIPHYAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6DE173A191B4DA72D37BFC18 /* Pods-GIPHYApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GIPHYApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-GIPHYApp/Pods-GIPHYApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -122,6 +126,7 @@
 			children = (
 				5B29D44D1FAB3C3E00B96665 /* GIFsStoreProtocol.swift */,
 				5B4410261FAB3B0F0036EF5E /* GIFsCoreDataStore.swift */,
+				5BF3C0B51FAB848600CCC7FA /* GIPHYAPIService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -225,6 +230,7 @@
 		5BAC9CF31FAB2F78004A4468 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5BF3C0B71FAB85CD00CCC7FA /* Responses */,
 				5B4410231FAB38E00036EF5E /* GIF */,
 				5B4410241FAB3A4F0036EF5E /* LocalURLProvider.swift */,
 			);
@@ -259,6 +265,14 @@
 				5BAC9CE41FAB1C67004A4468 /* Supporting Files */,
 			);
 			path = GIPHYApp;
+			sourceTree = "<group>";
+		};
+		5BF3C0B71FAB85CD00CCC7FA /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				5BF3C0B81FAB85E200CCC7FA /* GIFSearchResponse.swift */,
+			);
+			path = Responses;
 			sourceTree = "<group>";
 		};
 		99AC70DC61A53D0D972DD7FF /* Pods */ = {
@@ -462,12 +476,14 @@
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Siesta/Siesta.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Siesta.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -484,12 +500,14 @@
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Siesta/Siesta.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Siesta.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -513,6 +531,7 @@
 			files = (
 				5B4410081FAB34690036EF5E /* ContentViewController.swift in Sources */,
 				5B4410011FAB32E60036EF5E /* ViewGIFRouter.swift in Sources */,
+				5BF3C0B61FAB848600CCC7FA /* GIPHYAPIService.swift in Sources */,
 				5B440FFF1FAB32E60036EF5E /* ViewGIFPresenter.swift in Sources */,
 				5BBE7BD21FAB107A0048EE1B /* AppDelegate.swift in Sources */,
 				5B4410001FAB32E60036EF5E /* ViewGIFWorker.swift in Sources */,
@@ -531,6 +550,7 @@
 				5BAC9CEE1FAB1CCA004A4468 /* BrowseGIFsWorker.swift in Sources */,
 				5BAC9CF01FAB1CCA004A4468 /* BrowseGIFsModels.swift in Sources */,
 				5B4410041FAB32E60036EF5E /* ViewGIFInteractor.swift in Sources */,
+				5BF3C0B91FAB85E200CCC7FA /* GIFSearchResponse.swift in Sources */,
 				5BAC9CF11FAB1CCA004A4468 /* BrowseGIFsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

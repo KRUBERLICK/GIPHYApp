@@ -6,6 +6,7 @@ def common_pods
     pod 'ObjectMapper'
     pod 'RxSwift'
     pod 'RxCocoa'
+    pod 'Siesta'
 end
 
 target 'GIPHYApp' do

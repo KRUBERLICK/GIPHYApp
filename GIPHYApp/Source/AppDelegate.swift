@@ -7,22 +7,16 @@
 //
 
 import UIKit
+import RxSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
+
+    var disposeBag = DisposeBag()
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        let dataStore = GIFsCoreDataStore(localURLProvider: LocalURLProvider())
-//        let gif = GIF(id: "12345", url: nil, localGIFData: nil)
-//        _ = dataStore.addGIF(gif).subscribe()
-        _ = dataStore.fetchGIFs()
-            .subscribe(onNext: { results in
-
-            }, onError: { error in
-
-            })
         return true
     }
 }
