@@ -2,6 +2,16 @@ platform :ios, '11.0'
 
 use_frameworks!
 
-target 'GIPHYApp' do
+def common_pods
     pod 'ObjectMapper'
+    pod 'RxSwift'
+    pod 'RxCocoa'
 end
+
+target 'GIPHYApp' do
+    common_pods
+end
+
+target 'GIPHYAppTests' do
+    common_pods
+end 

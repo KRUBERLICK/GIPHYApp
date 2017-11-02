@@ -11,10 +11,7 @@ import Foundation
 import CoreData
 
 extension ManagedGIF {
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<ManagedGIF> {
-        return NSFetchRequest<ManagedGIF>(entityName: "ManagedGIF")
-    }
-
+    @nonobjc static var entityName = "ManagedGIF"
     @NSManaged public var id: String?
     @NSManaged public var url: URL?
     @NSManaged public var localGIFData: NSData?

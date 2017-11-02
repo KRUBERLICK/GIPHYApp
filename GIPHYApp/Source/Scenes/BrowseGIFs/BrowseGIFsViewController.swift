@@ -63,6 +63,8 @@ class BrowseGIFsViewController: ContentViewController, BrowseGIFsDisplayLogic {
     override func viewDidLoad() {
         super.viewDidLoad()
         doSomething()
+        let searchController = UISearchController()
+        navigationItem.searchController = searchController
     }
     
     // MARK: Do something
