@@ -73,6 +73,8 @@ class BrowseGIFsViewController: ContentViewController, BrowseGIFsDisplayLogic {
         super.viewDidLoad()
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
+        let layout = ConcatCollectionViewLayout(stickyHeaders: false, topContentInset: 0, stretchToEdge: false)
+        collectionView.collectionViewLayout = layout
         adapter.collectionView = collectionView
         reloadFeed()
     }

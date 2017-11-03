@@ -28,6 +28,7 @@
 		5B5D19CC1FAB75A900841D06 /* GIFsCoreDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5D19CB1FAB75A900841D06 /* GIFsCoreDataStoreTests.swift */; };
 		5B7C0F5B1FACBFBC007A172E /* BrowseGIFsSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C0F5A1FACBFBC007A172E /* BrowseGIFsSectionController.swift */; };
 		5B7C0F5D1FACD606007A172E /* GIFUpdatesBroadcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C0F5C1FACD606007A172E /* GIFUpdatesBroadcast.swift */; };
+		5B7C0F611FACDC14007A172E /* ConcatCollectionViewLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C0F5F1FACDC13007A172E /* ConcatCollectionViewLayout.mm */; };
 		5BAC9CED1FAB1CCA004A4468 /* BrowseGIFsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAC9CE71FAB1CCA004A4468 /* BrowseGIFsPresenter.swift */; };
 		5BAC9CEE1FAB1CCA004A4468 /* BrowseGIFsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAC9CE81FAB1CCA004A4468 /* BrowseGIFsWorker.swift */; };
 		5BAC9CEF1FAB1CCA004A4468 /* BrowseGIFsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAC9CE91FAB1CCA004A4468 /* BrowseGIFsRouter.swift */; };
@@ -78,6 +79,9 @@
 		5B5D19CB1FAB75A900841D06 /* GIFsCoreDataStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFsCoreDataStoreTests.swift; sourceTree = "<group>"; };
 		5B7C0F5A1FACBFBC007A172E /* BrowseGIFsSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseGIFsSectionController.swift; sourceTree = "<group>"; };
 		5B7C0F5C1FACD606007A172E /* GIFUpdatesBroadcast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFUpdatesBroadcast.swift; sourceTree = "<group>"; };
+		5B7C0F5E1FACDC12007A172E /* GIPHYApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GIPHYApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		5B7C0F5F1FACDC13007A172E /* ConcatCollectionViewLayout.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ConcatCollectionViewLayout.mm; sourceTree = "<group>"; };
+		5B7C0F601FACDC13007A172E /* ConcatCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcatCollectionViewLayout.h; sourceTree = "<group>"; };
 		5BAC9CE71FAB1CCA004A4468 /* BrowseGIFsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseGIFsPresenter.swift; sourceTree = "<group>"; };
 		5BAC9CE81FAB1CCA004A4468 /* BrowseGIFsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseGIFsWorker.swift; sourceTree = "<group>"; };
 		5BAC9CE91FAB1CCA004A4468 /* BrowseGIFsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseGIFsRouter.swift; sourceTree = "<group>"; };
@@ -215,6 +219,7 @@
 		5BAC9CE41FAB1C67004A4468 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5B7C0F5E1FACDC12007A172E /* GIPHYApp-Bridging-Header.h */,
 				5BBE7BDD1FAB107A0048EE1B /* Info.plist */,
 			);
 			path = "Supporting Files";
@@ -233,6 +238,8 @@
 		5BAC9CE61FAB1C98004A4468 /* BrowseGIFs */ = {
 			isa = PBXGroup;
 			children = (
+				5B7C0F601FACDC13007A172E /* ConcatCollectionViewLayout.h */,
+				5B7C0F5F1FACDC13007A172E /* ConcatCollectionViewLayout.mm */,
 				5BAC9CE71FAB1CCA004A4468 /* BrowseGIFsPresenter.swift */,
 				5BAC9CE81FAB1CCA004A4468 /* BrowseGIFsWorker.swift */,
 				5BAC9CE91FAB1CCA004A4468 /* BrowseGIFsRouter.swift */,
@@ -374,6 +381,7 @@
 					};
 					5BBE7BCD1FAB107A0048EE1B = {
 						CreatedOnToolsVersion = 9.0.1;
+						LastSwiftMigration = 0910;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -587,6 +595,7 @@
 				5BAC9CF01FAB1CCA004A4468 /* BrowseGIFsModels.swift in Sources */,
 				5B4410041FAB32E60036EF5E /* ViewGIFInteractor.swift in Sources */,
 				5BF3C0B91FAB85E200CCC7FA /* GIFSearchResponse.swift in Sources */,
+				5B7C0F611FACDC14007A172E /* ConcatCollectionViewLayout.mm in Sources */,
 				5BAC9CF11FAB1CCA004A4468 /* BrowseGIFsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -767,12 +776,15 @@
 			baseConfigurationReference = EF2F2F9D9ADD882B8A19DA19 /* Pods-GIPHYApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 52PJTX65T3;
 				INFOPLIST_FILE = "$(SRCROOT)/GIPHYApp/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kruberlick.GIPHYApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "GIPHYApp/Supporting Files/GIPHYApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -783,12 +795,14 @@
 			baseConfigurationReference = 6DE173A191B4DA72D37BFC18 /* Pods-GIPHYApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 52PJTX65T3;
 				INFOPLIST_FILE = "$(SRCROOT)/GIPHYApp/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kruberlick.GIPHYApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "GIPHYApp/Supporting Files/GIPHYApp-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -24,8 +24,8 @@ class BrowseGIFsSectionController: ListSectionController {
     }
 
     override func sizeForItem(at index: Int) -> CGSize {
-        let width = collectionContext!.containerSize.width
-        return CGSize(width: width, height: width / 3)
+        let width = collectionContext!.containerSize.width / 3
+        return CGSize(width: width, height: width)
     }
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
