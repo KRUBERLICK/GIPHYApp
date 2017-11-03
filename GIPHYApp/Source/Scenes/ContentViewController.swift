@@ -16,5 +16,6 @@ class ContentViewController: UIViewController {
         ]
         navigationController?.navigationBar.titleTextAttributes = navBarTitleAttributes
         navigationController?.navigationBar.largeTitleTextAttributes = navBarTitleAttributes
+        navigationController?.navigationBar.tintColor = .white
     }
 }

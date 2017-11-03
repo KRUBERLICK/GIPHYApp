@@ -7,6 +7,8 @@ def common_pods
     pod 'RxSwift'
     pod 'RxCocoa'
     pod 'Siesta'
+    pod 'Alamofire'
+    pod 'FLAnimatedImage'
 end
 
 target 'GIPHYApp' do

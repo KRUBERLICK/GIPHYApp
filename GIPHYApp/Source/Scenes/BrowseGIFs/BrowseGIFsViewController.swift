@@ -59,21 +59,29 @@ class BrowseGIFsViewController: ContentViewController, BrowseGIFsDisplayLogic {
     }
     
     // MARK: View lifecycle
+
+    lazy var searchController: UISearchController = {
+        let controller = UISearchController(searchResultsController: nil)
+        controller.dimsBackgroundDuringPresentation = false
+        controller.searchBar.tintColor = .white
+        return controller
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         doSomething()
-        let searchController = UISearchController()
         navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     // MARK: Do something
     
     //@IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     func doSomething() {
         let request = BrowseGIFs.Something.Request()
-        interactor?.doSomething(request: request)
+//        interactor?.doSomething(request: request)
     }
     
     func displaySomething(viewModel: BrowseGIFs.Something.ViewModel) {

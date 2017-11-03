@@ -16,7 +16,7 @@ protocol Identifiable {
 struct GIF: Identifiable, ImmutableMappable {
     let id: String
     let url: URL?
-    var localGIFData: Data?
+    var localURL: URL?
 
     init(map: Map) throws {
         id = try map.value("id")
@@ -28,10 +28,10 @@ struct GIF: Identifiable, ImmutableMappable {
         url >>> (map["url"], URLTransform())
     }
 
-    init(id: String, url: URL?, localGIFData: Data?) {
+    init(id: String, url: URL?, localURL: URL?) {
         self.id = id
         self.url = url
-        self.localGIFData = localGIFData
+        self.localURL = localURL
     }
 }
 

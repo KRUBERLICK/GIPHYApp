@@ -13,7 +13,9 @@
 import UIKit
 
 protocol BrowseGIFsBusinessLogic {
-    func doSomething(request: BrowseGIFs.Something.Request)
+//    func reloadFeed()
+//    func requestNextChunk()
+//    func doSomething(request: BrowseGIFs.Something.Request)
 }
 
 protocol BrowseGIFsDataStore {
@@ -27,11 +29,11 @@ class BrowseGIFsInteractor: BrowseGIFsBusinessLogic, BrowseGIFsDataStore {
     
     // MARK: Do something
     
-    func doSomething(request: BrowseGIFs.Something.Request) {
-        worker = BrowseGIFsWorker()
-        worker?.doSomeWork()
-        
-        let response = BrowseGIFs.Something.Response()
-        presenter?.presentSomething(response: response)
-    }
+//    func doSomething(request: BrowseGIFs.Something.Request) {
+//        worker = BrowseGIFsWorker()
+//        worker?.doSomeWork()
+//        
+//        let response = BrowseGIFs.Something.Response()
+//        presenter?.presentSomething(response: response)
+//    }
 }

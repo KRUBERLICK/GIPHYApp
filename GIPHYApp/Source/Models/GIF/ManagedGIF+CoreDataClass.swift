@@ -12,12 +12,12 @@ import CoreData
 
 public class ManagedGIF: NSManagedObject {
     func toGIF() -> GIF {
-        return GIF(id: id!, url: url, localGIFData: localGIFData as Data?)
+        return GIF(id: id!, url: url, localURL: localURL)
     }
 
     func fromGIF(_ gif: GIF) {
         id = gif.id
         url = gif.url
-        localGIFData = gif.localGIFData as NSData?
+        localURL = gif.localURL
     }
 }

@@ -60,7 +60,7 @@ class GIFsCoreDataStoreTests: XCTestCase {
 
     func testGIFAdd() {
         let expectation = XCTestExpectation(description: "Adding new GIF to the store")
-        let gif = GIF(id: "12345", url: nil, localGIFData: nil)
+        let gif = GIF(id: "12345", url: nil, localURL: nil)
         addGIFToStore(gif, expectation: nil, completion: { _ in
             self.fetchGIFsAndTestCondition({ $0.count == 1 && $0[0].id == gif.id }, expectation: expectation)
         })
@@ -69,7 +69,7 @@ class GIFsCoreDataStoreTests: XCTestCase {
 
     func testGIFDelete() {
         let expectation = XCTestExpectation(description: "Deleting GIF from the store")
-        let gif = GIF(id: "12345", url: nil, localGIFData: nil)
+        let gif = GIF(id: "12345", url: nil, localURL: nil)
         addGIFToStore(gif, expectation: nil, completion: { _ in
             _ = self.store.deleteGIF(withID: gif.id)
                 .subscribe(onNext: { _ in
@@ -83,10 +83,10 @@ class GIFsCoreDataStoreTests: XCTestCase {
 
     func testGIFUpdate() {
         let expectation = XCTestExpectation(description: "Performing GIF update")
-        let gif = GIF(id: "12345", url: nil, localGIFData: nil)
+        let gif = GIF(id: "12345", url: nil, localURL: nil)
         addGIFToStore(gif, expectation: nil, completion: { _ in
             let url = URL(string: "https://google.com")!
-            let updatedGIF = GIF(id: gif.id, url: url, localGIFData: gif.localGIFData)
+            let updatedGIF = GIF(id: gif.id, url: url, localURL: gif.localURL)
             _ = self.store.updateGIF(updatedGIF)
                 .subscribe(onNext: { _ in
                     self.fetchGIFsAndTestCondition({ $0.count == 1 && $0[0].id == updatedGIF.id && $0[0].url == updatedGIF.url }, expectation: expectation)

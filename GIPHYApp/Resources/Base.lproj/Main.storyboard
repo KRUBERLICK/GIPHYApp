@@ -48,6 +48,9 @@
                         <viewLayoutGuide key="safeArea" id="wL6-zi-p3S"/>
                     </view>
                     <navigationItem key="navigationItem" title="Browse GIFs" id="3f5-vI-7yx"/>
+                    <connections>
+                        <outlet property="collectionView" destination="rXj-eg-90m" id="KgQ-r6-TQi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9F9-Qg-SrZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

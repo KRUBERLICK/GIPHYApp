@@ -11,7 +11,7 @@ import Siesta
 import ObjectMapper
 import RxSwift
 
-class GIPHYAPIService: Service {
+class GIPHYAPIService: Service, GIPHYAPIServiceProtocol {
     private static let APIKey = "T5JLumVr6Oozwcz1AJV4fuOLcB4MCkVv"
     private static let searchEndpoint = "/gifs/search"
 
