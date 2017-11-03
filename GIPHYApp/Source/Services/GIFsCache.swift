@@ -12,10 +12,12 @@ import Alamofire
 class GIFsCache: GIFsCacheProtocol {
     private let localStore: GIFsStoreProtocol
     private let localURLProvider: LocalURLProvider
+    private let gifUpdatesBroadcast: GIFUpdatesBroadcast
 
-    init(localStore: GIFsStoreProtocol, localURLProvider: LocalURLProvider) {
+    init(localStore: GIFsStoreProtocol, localURLProvider: LocalURLProvider, gifUpdatesBroadcast: GIFUpdatesBroadcast) {
         self.localStore = localStore
         self.localURLProvider = localURLProvider
+        self.gifUpdatesBroadcast = gifUpdatesBroadcast
     }
 
     func cacheGIF(_ gif: GIF) {
@@ -36,6 +38,7 @@ class GIFsCache: GIFsCacheProtocol {
             }
             let updatedGIF = GIF(id: gif.id, url: gif.url, localURL: localFileURL)
             _ = strongSelf.localStore.updateGIF(updatedGIF).subscribe()
+            strongSelf.gifUpdatesBroadcast.update(gif: updatedGIF)
         }
     }
 

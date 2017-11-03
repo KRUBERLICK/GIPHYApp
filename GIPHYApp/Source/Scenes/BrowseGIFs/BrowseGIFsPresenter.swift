@@ -13,7 +13,7 @@
 import UIKit
 
 protocol BrowseGIFsPresentationLogic {
-    func presentSomething(response: BrowseGIFs.Something.Response)
+    func displayFetchedGIFs(response: BrowseGIFs.FetchGIFs.Response)
 }
 
 class BrowseGIFsPresenter: BrowseGIFsPresentationLogic {
@@ -21,8 +21,8 @@ class BrowseGIFsPresenter: BrowseGIFsPresentationLogic {
     
     // MARK: Do something
     
-    func presentSomething(response: BrowseGIFs.Something.Response) {
-        let viewModel = BrowseGIFs.Something.ViewModel()
-        viewController?.displaySomething(viewModel: viewModel)
+    func displayFetchedGIFs(response: BrowseGIFs.FetchGIFs.Response) {
+        let viewModel = BrowseGIFs.FetchGIFs.ViewModel(displayedItems: response.data.map { BrowseGIFs.FetchGIFs.ViewModel.Item(gif: $0) })
+        viewController?.displayFetchedGIFs(viewModel: viewModel)
     }
 }

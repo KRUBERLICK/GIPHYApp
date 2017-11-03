@@ -9,6 +9,7 @@ def common_pods
     pod 'Siesta'
     pod 'Alamofire'
     pod 'FLAnimatedImage'
+    pod 'IGListKit'
 end
 
 target 'GIPHYApp' do

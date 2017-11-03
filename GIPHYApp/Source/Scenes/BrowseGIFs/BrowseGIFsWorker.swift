@@ -20,19 +20,32 @@ class BrowseGIFsWorker {
     private let localStore: GIFsStoreProtocol
     private let webService: GIPHYAPIServiceProtocol
     private let localURLProvider: LocalURLProvider
+    private let gifUpdatesBroadcast: GIFUpdatesBroadcast
     let contents = Variable<[GIF]>([])
     var query: String = ""
     private var disposeBag = DisposeBag()
+    private var gifUpdatesBroadcastDisposeBag = DisposeBag()
     private var currentOffset = 0
     private var currentLimit = 20
     private var totalCount = 0
     private var fetchInProgress = false
 
-    init(cache: GIFsCacheProtocol, localStore: GIFsStoreProtocol, webService: GIPHYAPIServiceProtocol, localURLProvider: LocalURLProvider) {
+    init(cache: GIFsCacheProtocol, localStore: GIFsStoreProtocol, webService: GIPHYAPIServiceProtocol, localURLProvider: LocalURLProvider, gifUpdatesBroadcast: GIFUpdatesBroadcast) {
         self.cache = cache
         self.localStore = localStore
         self.webService = webService
         self.localURLProvider = localURLProvider
+        self.gifUpdatesBroadcast = gifUpdatesBroadcast
+        self.gifUpdatesBroadcast.updates
+            .subscribe(onNext: { [weak self] gif in
+                guard let strongSelf = self else {
+                    return
+                }
+                if let index = strongSelf.contents.value.index(of: gif) {
+                    strongSelf.contents.value[index] = gif
+                }
+            })
+            .disposed(by: gifUpdatesBroadcastDisposeBag)
     }
 
     func reloadFeed() {

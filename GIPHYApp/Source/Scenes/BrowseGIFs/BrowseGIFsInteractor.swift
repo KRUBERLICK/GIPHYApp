@@ -11,23 +11,57 @@
 //
 
 import UIKit
+import RxSwift
 
 protocol BrowseGIFsBusinessLogic {
-//    func reloadFeed()
-//    func requestNextChunk()
-//    func doSomething(request: BrowseGIFs.Something.Request)
+    func reloadFeed(request: BrowseGIFs.FetchGIFs.Request)
+    func fetchNextPage()
+    func cacheGIF(_ gif: GIF)
 }
 
 protocol BrowseGIFsDataStore {
-    //var name: String { get set }
+    var displayedGIFs: BrowseGIFs.FetchGIFs.ViewModel { get set }
 }
 
 class BrowseGIFsInteractor: BrowseGIFsBusinessLogic, BrowseGIFsDataStore {
     var presenter: BrowseGIFsPresentationLogic?
-    var worker: BrowseGIFsWorker?
-    //var name: String = ""
+
+    var worker: BrowseGIFsWorker? {
+        didSet {
+            setWorkerSubscription()
+        }
+    }
+
+    var displayedGIFs: BrowseGIFs.FetchGIFs.ViewModel = BrowseGIFs.FetchGIFs.ViewModel(displayedItems: [])
+    private var disposeBag = DisposeBag()
     
-    // MARK: Do something
+    private func setWorkerSubscription() {
+        worker?.contents.asObservable().skip(1)
+            .subscribe(onNext: { [weak self] contents in
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.displayedGIFs = BrowseGIFs.FetchGIFs.ViewModel(displayedItems: contents.map { BrowseGIFs.FetchGIFs.ViewModel.Item(gif: $0) })
+                strongSelf.presenter?.displayFetchedGIFs(response: BrowseGIFs.FetchGIFs.Response(data: contents))
+            })
+            .disposed(by: disposeBag)
+    }
+
+    func reloadFeed(request: BrowseGIFs.FetchGIFs.Request) {
+        guard let worker = worker else {
+            return
+        }
+        worker.query = request.query
+        worker.reloadFeed()
+    }
+
+    func fetchNextPage() {
+        worker?.requestNextChunk()
+    }
+
+    func cacheGIF(_ gif: GIF) {
+        worker?.cacheGIFData(for: gif)
+    }
     
 //    func doSomething(request: BrowseGIFs.Something.Request) {
 //        worker = BrowseGIFsWorker()

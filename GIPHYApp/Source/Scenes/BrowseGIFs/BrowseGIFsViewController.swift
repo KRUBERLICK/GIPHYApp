@@ -11,9 +11,10 @@
 //
 
 import UIKit
+import IGListKit
 
 protocol BrowseGIFsDisplayLogic: class {
-    func displaySomething(viewModel: BrowseGIFs.Something.ViewModel)
+    func displayFetchedGIFs(viewModel: BrowseGIFs.FetchGIFs.ViewModel)
 }
 
 class BrowseGIFsViewController: ContentViewController, BrowseGIFsDisplayLogic {
@@ -42,6 +43,14 @@ class BrowseGIFsViewController: ContentViewController, BrowseGIFsDisplayLogic {
         viewController.interactor = interactor
         viewController.router = router
         interactor.presenter = presenter
+
+        let localURLProvider = LocalURLProvider()
+        let localStore = GIFsCoreDataStore(localURLProvider: localURLProvider)
+        let webService = GIPHYAPIService()
+        let gifUpdatesBroadcast = GIFUpdatesBroadcast()
+
+        interactor.worker = BrowseGIFsWorker(cache: GIFsCache(localStore: localStore, localURLProvider: localURLProvider, gifUpdatesBroadcast: gifUpdatesBroadcast), localStore: localStore, webService: webService, localURLProvider: localURLProvider, gifUpdatesBroadcast: gifUpdatesBroadcast)
+        
         presenter.viewController = viewController
         router.viewController = viewController
         router.dataStore = interactor
@@ -59,6 +68,18 @@ class BrowseGIFsViewController: ContentViewController, BrowseGIFsDisplayLogic {
     }
     
     // MARK: View lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        adapter.collectionView = collectionView
+        reloadFeed()
+    }
+
+    // MARK: Subviews
+
+    @IBOutlet weak var collectionView: UICollectionView!
 
     lazy var searchController: UISearchController = {
         let controller = UISearchController(searchResultsController: nil)
@@ -66,25 +87,75 @@ class BrowseGIFsViewController: ContentViewController, BrowseGIFsDisplayLogic {
         controller.searchBar.tintColor = .white
         return controller
     }()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        doSomething()
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
+
+    // MARK: Properties
+
+    private lazy var adapter: ListAdapter = {
+        let adapter = ListAdapter(updater: ListAdapterUpdater(), viewController: self)
+        adapter.dataSource = self
+        return adapter
+    }()
+
+    // MARK: Fetch GIFs
+
+    func reloadFeed() {
+        let query = "beer"
+        let request = BrowseGIFs.FetchGIFs.Request(query: query)
+        interactor?.reloadFeed(request: request)
     }
-    
-    // MARK: Do something
-    
-    //@IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var collectionView: UICollectionView!
-    
-    func doSomething() {
-        let request = BrowseGIFs.Something.Request()
-//        interactor?.doSomething(request: request)
+
+    func fetchNextPage() {
+        interactor?.fetchNextPage()
     }
-    
-    func displaySomething(viewModel: BrowseGIFs.Something.ViewModel) {
-        //nameTextField.text = viewModel.name
+
+    func displayFetchedGIFs(viewModel: BrowseGIFs.FetchGIFs.ViewModel) {
+        adapter.performUpdates(animated: true, completion: nil)
+    }
+}
+
+// MARK: ListAdapterDataSource
+
+extension BrowseGIFsViewController: ListAdapterDataSource {
+    func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
+        guard let dataStore = router?.dataStore else {
+            return []
+        }
+        return dataStore.displayedGIFs.displayedItems
+    }
+
+    func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
+        if let object = object as? BrowseGIFs.FetchGIFs.ViewModel.Item {
+            let sc = BrowseGIFsSectionController(viewModel: object, dependencies: BrowseGIFsSectionController.Dependencies())
+            sc.displayDelegate = self
+            return sc
+        }
+        fatalError("Unexpected object: \(object)")
+    }
+
+    func emptyView(for listAdapter: ListAdapter) -> UIView? {
+        let label = UILabel(frame: .zero)
+        label.text = "Nothing to show"
+        return label
+    }
+}
+
+extension BrowseGIFsViewController: ListDisplayDelegate {
+    func listAdapter(_ listAdapter: ListAdapter, willDisplay sectionController: ListSectionController) {
+        guard let sc = sectionController as? BrowseGIFsSectionController, sc.viewModel.gif.localURL == nil else {
+            return
+        }
+        interactor?.cacheGIF(sc.viewModel.gif)
+    }
+
+    func listAdapter(_ listAdapter: ListAdapter, didEndDisplaying sectionController: ListSectionController) {
+
+    }
+
+    func listAdapter(_ listAdapter: ListAdapter, willDisplay sectionController: ListSectionController, cell: UICollectionViewCell, at index: Int) {
+
+    }
+
+    func listAdapter(_ listAdapter: ListAdapter, didEndDisplaying sectionController: ListSectionController, cell: UICollectionViewCell, at index: Int) {
+
     }
 }

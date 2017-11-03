@@ -12,6 +12,7 @@
 
 import UIKit
 import ObjectMapper
+import IGListKit
 
 enum BrowseGIFs {
     enum FetchGIFs {
@@ -19,17 +20,32 @@ enum BrowseGIFs {
             let query: String
         }
 
-        struct Response: ImmutableMappable {
-            let results: [GIF]
-
-            init(map: Map) throws {
-                results = (try? map.value("data")) ?? []
-            }
+        struct Response {
+            let data: [GIF]
         }
 
         struct ViewModel {
-            let url: URL?
-            let localGIFData: Data?
+            class Item: ListDiffable {
+                let gif: GIF
+
+                init(gif: GIF) {
+                    self.gif = gif
+                }
+
+                func diffIdentifier() -> NSObjectProtocol {
+                    return gif.id as NSString
+                }
+
+                func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
+                    guard let object = object as? Item else {
+                        return false
+                    }
+
+                    return object.gif == self.gif// && object.gif.localURL == self.gif.localURL
+                }
+            }
+
+            let displayedItems: [Item]
         }
     }
 
