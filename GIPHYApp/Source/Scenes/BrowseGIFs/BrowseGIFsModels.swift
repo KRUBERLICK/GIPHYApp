@@ -48,6 +48,20 @@ enum BrowseGIFs {
             let displayedItems: [Item]
         }
     }
+    
+    enum SelectGIF {
+        struct Request {
+            let vm: ViewModel
+        }
+        
+        struct Response {
+            let vm: ViewModel
+        }
+        
+        struct ViewModel {
+            let gif: GIF?
+        }
+    }
 
     enum Something {
         struct Request {

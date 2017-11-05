@@ -15,6 +15,8 @@ import IGListKit
 
 protocol BrowseGIFsDisplayLogic: class {
     func displayFetchedGIFs(viewModel: BrowseGIFs.FetchGIFs.ViewModel)
+    func selectGIF(viewModel: BrowseGIFs.SelectGIF.ViewModel)
+    func didSelectGIF(viewModel: BrowseGIFs.SelectGIF.ViewModel)
 }
 
 class BrowseGIFsViewController: ContentViewController, BrowseGIFsDisplayLogic {
@@ -34,8 +36,6 @@ class BrowseGIFsViewController: ContentViewController, BrowseGIFsDisplayLogic {
     }
     
     // MARK: Setup
-
-    private var gifUpdatesBroadcast: GIFUpdatesBroadcast!
     
     private func setup() {
         let viewController = self
@@ -77,7 +77,9 @@ class BrowseGIFsViewController: ContentViewController, BrowseGIFsDisplayLogic {
         navigationItem.hidesSearchBarWhenScrolling = false
         let layout = ConcatCollectionViewLayout(stickyHeaders: false, topContentInset: 0, stretchToEdge: false)
         collectionView.collectionViewLayout = layout
+        collectionViewEmptyView = loadingIndicatorView
         adapter.collectionView = collectionView
+        searchController.searchBar.delegate = self
         reloadFeed()
     }
 
@@ -89,21 +91,41 @@ class BrowseGIFsViewController: ContentViewController, BrowseGIFsDisplayLogic {
         let controller = UISearchController(searchResultsController: nil)
         controller.dimsBackgroundDuringPresentation = false
         controller.searchBar.tintColor = .white
+        controller.searchBar.enablesReturnKeyAutomatically = true
         return controller
     }()
+    
+    private lazy var loadingIndicatorView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        view.startAnimating()
+        return view
+    }()
+    
+    private lazy var noContentPlaceholderView: UILabel = {
+        let view = UILabel(frame: .zero)
+        view.text = "Nothing to display"
+        view.textAlignment = .center
+        return view
+    }()
+    
+    private var collectionViewEmptyView: UIView!
 
     // MARK: Properties
+    
+    private let autoTailLoadingNumScreenfulls: CGFloat = 2.5
 
     private lazy var adapter: ListAdapter = {
         let adapter = ListAdapter(updater: ListAdapterUpdater(), viewController: self)
         adapter.dataSource = self
         return adapter
     }()
+    
+    private var gifUpdatesBroadcast: GIFUpdatesBroadcast!
+    private var query: String = ""
 
     // MARK: Fetch GIFs
 
     func reloadFeed() {
-        let query = ""
         let request = BrowseGIFs.FetchGIFs.Request(query: query)
         interactor?.reloadFeed(request: request)
     }
@@ -113,7 +135,19 @@ class BrowseGIFsViewController: ContentViewController, BrowseGIFsDisplayLogic {
     }
 
     func displayFetchedGIFs(viewModel: BrowseGIFs.FetchGIFs.ViewModel) {
+        collectionViewEmptyView = noContentPlaceholderView
         adapter.performUpdates(animated: true, completion: nil)
+    }
+    
+    // MARK: Select GIF
+    
+    func selectGIF(viewModel: BrowseGIFs.SelectGIF.ViewModel) {
+        let request = BrowseGIFs.SelectGIF.Request(vm: viewModel)
+        interactor?.selectGIF(request: request)
+    }
+    
+    func didSelectGIF(viewModel: BrowseGIFs.SelectGIF.ViewModel) {
+        performSegue(withIdentifier: "ViewGIF", sender: nil)
     }
 }
 
@@ -135,9 +169,40 @@ extension BrowseGIFsViewController: ListAdapterDataSource {
     }
 
     func emptyView(for listAdapter: ListAdapter) -> UIView? {
-//        let label = UILabel(frame: .zero)
-//        label.text = "Nothing to show"
-//        return label
-        return nil
+        return collectionViewEmptyView
+    }
+}
+
+extension BrowseGIFsViewController: ListScrollDelegate {
+    func listAdapter(_ listAdapter: ListAdapter, didScroll sectionController: ListSectionController) {
+        let currentOffsetY = collectionView.contentOffset.y
+        let contentHeight = collectionView.contentSize.height
+        let screenHeight = UIScreen.main.bounds.height
+        let screenfullsBeforeBottom = (contentHeight - currentOffsetY) / screenHeight
+        if screenfullsBeforeBottom < autoTailLoadingNumScreenfulls {
+            fetchNextPage()
+        }
+    }
+    
+    func listAdapter(_ listAdapter: ListAdapter, willBeginDragging sectionController: ListSectionController) {}
+    
+    func listAdapter(_ listAdapter: ListAdapter, didEndDragging sectionController: ListSectionController, willDecelerate decelerate: Bool) {}
+}
+
+extension BrowseGIFsViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        query = searchBar.text ?? ""
+        scrollCVToTop()
+        reloadFeed()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        query = ""
+        scrollCVToTop()
+        reloadFeed()
+    }
+    
+    private func scrollCVToTop() {
+        collectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: true)
     }
 }

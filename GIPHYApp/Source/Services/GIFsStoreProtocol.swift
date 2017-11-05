@@ -16,4 +16,5 @@ protocol GIFsStoreProtocol {
     func deleteGIF(withID gifID: String) -> Observable<Bool>
     func updateGIF(_ gif: GIF) -> Observable<Bool>
     func clearStore() -> Observable<Bool>
+    func deleteGIFs(withQuery query: String) -> Observable<Bool>
 }

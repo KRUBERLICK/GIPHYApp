@@ -26,29 +26,31 @@ class BrowseGIFsRouter: NSObject, BrowseGIFsRoutingLogic, BrowseGIFsDataPassing 
     
     // MARK: Routing
     
-    //func routeToSomewhere(segue: UIStoryboardSegue?)
-    //{
-    //  if let segue = segue {
-    //    let destinationVC = segue.destination as! SomewhereViewController
-    //    var destinationDS = destinationVC.router!.dataStore!
-    //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-    //  } else {
-    //    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    //    let destinationVC = storyboard.instantiateViewController(withIdentifier: "SomewhereViewController") as! SomewhereViewController
-    //    var destinationDS = destinationVC.router!.dataStore!
-    //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-    //    navigateToSomewhere(source: viewController!, destination: destinationVC)
-    //  }
-    //}
+    @objc func routeToViewGIF(segue: UIStoryboardSegue?) {
+        if let segue = segue {
+            let destinationVC = segue.destination as! ViewGIFViewController
+            var destinationDS = destinationVC.router!.dataStore!
+            passDataToViewGIF(source: dataStore!, destination: &destinationDS)
+        } else {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let destinationVC = storyboard.instantiateViewController(withIdentifier: "ViewGIFViewController") as! ViewGIFViewController
+            var destinationDS = destinationVC.router!.dataStore!
+            passDataToViewGIF(source: dataStore!, destination: &destinationDS)
+            navigateToViewGIF(source: viewController!, destination: destinationVC)
+        }
+    }
     
     // MARK: Navigation
     
-    //func navigateToSomewhere(source: BrowseGIFsViewController, destination: SomewhereViewController)
-    //{
-    //  source.show(destination, sender: nil)
-    //}
+    func navigateToViewGIF(source: BrowseGIFsViewController, destination: ViewGIFViewController) {
+        source.show(destination, sender: nil)
+    }
     
     // MARK: Passing data
+    
+    func passDataToViewGIF(source: BrowseGIFsDataStore, destination: inout ViewGIFDataStore) {
+        destination.gif = ViewGIF.DisplayGIF.ViewModel(gif: source.selectedGIF.gif)
+    }
     
     //func passDataToSomewhere(source: BrowseGIFsDataStore, destination: inout SomewhereDataStore)
     //{

@@ -14,15 +14,18 @@ import UIKit
 
 protocol BrowseGIFsPresentationLogic {
     func displayFetchedGIFs(response: BrowseGIFs.FetchGIFs.Response)
+    func selectGIF(response: BrowseGIFs.SelectGIF.Response)
 }
 
 class BrowseGIFsPresenter: BrowseGIFsPresentationLogic {
     weak var viewController: BrowseGIFsDisplayLogic?
     
-    // MARK: Do something
-    
     func displayFetchedGIFs(response: BrowseGIFs.FetchGIFs.Response) {
         let viewModel = BrowseGIFs.FetchGIFs.ViewModel(displayedItems: response.data.map { BrowseGIFs.FetchGIFs.ViewModel.Item(gif: $0) })
         viewController?.displayFetchedGIFs(viewModel: viewModel)
+    }
+    
+    func selectGIF(response: BrowseGIFs.SelectGIF.Response) {
+        viewController?.didSelectGIF(viewModel: response.vm)
     }
 }

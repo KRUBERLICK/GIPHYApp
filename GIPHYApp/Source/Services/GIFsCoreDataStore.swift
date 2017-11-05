@@ -48,8 +48,18 @@ class GIFsCoreDataStore: GIFsStoreProtocol {
     }
 
     func clearStore() -> Observable<Bool> {
+        return performDeleteRequest(fetchRequestPredicate: nil)
+    }
+    
+    func deleteGIFs(withQuery query: String) -> Observable<Bool> {
+        let requestPredicate = NSPredicate(format: "query == %@", query)
+        return performDeleteRequest(fetchRequestPredicate: requestPredicate)
+    }
+    
+    private func performDeleteRequest(fetchRequestPredicate predicate: NSPredicate?) -> Observable<Bool> {
         return Observable.create { observer in
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: ManagedGIF.entityName)
+            fetchRequest.predicate = predicate
             do {
                 let results = try self.managedObjectContext.fetch(fetchRequest) as! [ManagedGIF]
                 for managedGIF in results {
@@ -66,24 +76,18 @@ class GIFsCoreDataStore: GIFsStoreProtocol {
     }
 
     func fetchGIFs() -> Observable<[GIF]> {
-        return Observable.create { observer in
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: ManagedGIF.entityName)
-            do {
-                let results = try self.managedObjectContext.fetch(fetchRequest) as! [ManagedGIF]
-                let gifs = results.map { $0.toGIF() }
-                observer.onNext(gifs)
-                observer.onCompleted()
-            } catch let error {
-                observer.onError(error)
-            }
-            return Disposables.create()
-        }
+        return performGIFsFetchRequest(fetchRequestPredicate: nil)
     }
 
     func fetchGIFs(withQuery query: String) -> Observable<[GIF]> {
+        let requestPredicate = NSPredicate(format: "query == %@", query)
+        return performGIFsFetchRequest(fetchRequestPredicate: requestPredicate)
+    }
+    
+    func performGIFsFetchRequest(fetchRequestPredicate predicate: NSPredicate?) -> Observable<[GIF]> {
         return Observable.create { observer in
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: ManagedGIF.entityName)
-            fetchRequest.predicate = NSPredicate(format: "query == %@", query)
+            fetchRequest.predicate = predicate
             do {
                 let results = try self.managedObjectContext.fetch(fetchRequest) as! [ManagedGIF]
                 let gifs = results.map { $0.toGIF() }

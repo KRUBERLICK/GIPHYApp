@@ -13,6 +13,18 @@ import FLAnimatedImage
 class BrowseGIFsSectionController: ListSectionController {
     var viewModel: BrowseGIFs.FetchGIFs.ViewModel.Item
     private let dependencies: Dependencies
+    private var _scrollDelegate: ListScrollDelegate?
+    
+    override var scrollDelegate: ListScrollDelegate? {
+        get {
+            return viewController as? ListScrollDelegate
+        }
+        set {
+            if let viewController = viewController as? ListScrollDelegate {
+                _scrollDelegate = viewController
+            }
+        }
+    }
 
     init(viewModel: BrowseGIFs.FetchGIFs.ViewModel.Item, dependencies: Dependencies) {
         self.viewModel = viewModel
@@ -24,7 +36,7 @@ class BrowseGIFsSectionController: ListSectionController {
     }
 
     override func sizeForItem(at index: Int) -> CGSize {
-        let width = collectionContext!.containerSize.width / 3
+        let width = collectionContext!.containerSize.width / 2
         return CGSize(width: width, height: width)
     }
 
@@ -51,7 +63,9 @@ class BrowseGIFsSectionController: ListSectionController {
     }
 
     override func didSelectItem(at index: Int) {
-
+        if let vc = viewController as? BrowseGIFsDisplayLogic {
+            vc.selectGIF(viewModel: BrowseGIFs.SelectGIF.ViewModel(gif: viewModel.gif))
+        }
     }
 
     struct Dependencies {

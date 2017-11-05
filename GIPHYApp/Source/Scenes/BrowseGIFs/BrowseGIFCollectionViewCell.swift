@@ -33,10 +33,11 @@ class BrowseGIFCollectionViewCell: UICollectionViewCell {
                 DispatchQueue(label: "com.kruberlick.GIPHYApp.GIFDownloadQueue", qos: .utility).async {
                     do {
                         let gifData = try Data(contentsOf: gif.url!)
+                        let animatedImage = FLAnimatedImage(animatedGIFData: gifData)
                         DispatchQueue.main.async {
                             self.onLocalGIFDataRetrieved?(gifData)
                             self.loadingIndicatorView.isHidden = true
-                            self.gifImageView.animatedImage = FLAnimatedImage(animatedGIFData: gifData)
+                            self.gifImageView.animatedImage = animatedImage
                             self.gifImageView.isHidden = false
                         }
                     } catch let error {

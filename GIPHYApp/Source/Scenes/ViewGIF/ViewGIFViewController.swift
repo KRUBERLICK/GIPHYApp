@@ -11,9 +11,11 @@
 //
 
 import UIKit
+import FLAnimatedImage
 
 protocol ViewGIFDisplayLogic: class {
     func displaySomething(viewModel: ViewGIF.Something.ViewModel)
+    func displayGIF(viewModel: ViewGIF.DisplayGIF.ViewModel)
 }
 
 class ViewGIFViewController: ContentViewController, ViewGIFDisplayLogic {
@@ -62,12 +64,22 @@ class ViewGIFViewController: ContentViewController, ViewGIFDisplayLogic {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        doSomething()
+        animatedImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ViewGIFViewController.handleAnimatedImageTap)))
     }
     
-    // MARK: Do something
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        displayGIF(viewModel: router!.dataStore!.gif)
+    }
+    
+    // MARK: Subviews
     
     //@IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var animatedImageView: FLAnimatedImageView!
+    
+    @objc private func handleAnimatedImageTap() {
+        dismiss(animated: true, completion: nil)
+    }
     
     func doSomething() {
         let request = ViewGIF.Something.Request()
@@ -76,5 +88,27 @@ class ViewGIFViewController: ContentViewController, ViewGIFDisplayLogic {
     
     func displaySomething(viewModel: ViewGIF.Something.ViewModel) {
         //nameTextField.text = viewModel.name
+    }
+    
+    func displayGIF(viewModel: ViewGIF.DisplayGIF.ViewModel) {
+        guard let gif = viewModel.gif else {
+            return
+        }
+        if let localGIFData = gif.localGIFData {
+            animatedImageView.animatedImage = FLAnimatedImage(animatedGIFData: localGIFData)
+        }
+        else {
+            DispatchQueue(label: "com.kruberlick.GIPHYApp.GIFDownloadQueue", qos: .utility).async {
+                do {
+                    let gifData = try Data(contentsOf: gif.url!)
+                    let animatedImage = FLAnimatedImage(animatedGIFData: gifData)
+                    DispatchQueue.main.async {
+                        self.animatedImageView.animatedImage = animatedImage
+                    }
+                } catch let error {
+                    print("Error reading gif data from url \(gif.url!), error: \(error)")
+                }
+            }
+        }
     }
 }

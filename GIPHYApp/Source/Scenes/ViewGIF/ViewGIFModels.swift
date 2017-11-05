@@ -23,4 +23,10 @@ enum ViewGIF {
         struct ViewModel {
         }
     }
+    
+    enum DisplayGIF {
+        struct ViewModel {
+            let gif: GIF?
+        }
+    }
 }

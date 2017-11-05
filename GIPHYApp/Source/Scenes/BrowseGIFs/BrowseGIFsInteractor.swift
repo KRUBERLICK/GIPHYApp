@@ -16,10 +16,12 @@ import RxSwift
 protocol BrowseGIFsBusinessLogic {
     func reloadFeed(request: BrowseGIFs.FetchGIFs.Request)
     func fetchNextPage()
+    func selectGIF(request: BrowseGIFs.SelectGIF.Request)
 }
 
 protocol BrowseGIFsDataStore {
     var displayedGIFs: BrowseGIFs.FetchGIFs.ViewModel { get set }
+    var selectedGIF: BrowseGIFs.SelectGIF.ViewModel { get set }
 }
 
 class BrowseGIFsInteractor: BrowseGIFsBusinessLogic, BrowseGIFsDataStore {
@@ -32,6 +34,7 @@ class BrowseGIFsInteractor: BrowseGIFsBusinessLogic, BrowseGIFsDataStore {
     }
 
     var displayedGIFs: BrowseGIFs.FetchGIFs.ViewModel = BrowseGIFs.FetchGIFs.ViewModel(displayedItems: [])
+    var selectedGIF: BrowseGIFs.SelectGIF.ViewModel = BrowseGIFs.SelectGIF.ViewModel(gif: nil)
     private var disposeBag = DisposeBag()
     
     private func setWorkerSubscription() {
@@ -56,5 +59,11 @@ class BrowseGIFsInteractor: BrowseGIFsBusinessLogic, BrowseGIFsDataStore {
 
     func fetchNextPage() {
         worker?.requestNextChunk()
+    }
+    
+    func selectGIF(request: BrowseGIFs.SelectGIF.Request) {
+        selectedGIF = request.vm
+        let response = BrowseGIFs.SelectGIF.Response(vm: request.vm)
+        presenter?.selectGIF(response: response)
     }
 }

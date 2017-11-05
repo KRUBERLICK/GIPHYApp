@@ -145,13 +145,6 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		5B4410061FAB33130036EF5E /* Workers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Workers;
-			sourceTree = "<group>";
-		};
 		5B4410231FAB38E00036EF5E /* GIF */ = {
 			isa = PBXGroup;
 			children = (
@@ -193,7 +186,6 @@
 				5BBE7BD11FAB107A0048EE1B /* AppDelegate.swift */,
 				5BAC9CF31FAB2F78004A4468 /* Models */,
 				5B4410051FAB32FE0036EF5E /* Services */,
-				5B4410061FAB33130036EF5E /* Workers */,
 				5BAC9CE51FAB1C93004A4468 /* Scenes */,
 			);
 			path = Source;
@@ -770,10 +762,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 52PJTX65T3;
+				DEVELOPMENT_TEAM = DD37QA6NV9;
 				INFOPLIST_FILE = "$(SRCROOT)/GIPHYApp/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kruberlick.GIPHYApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sasha.GIPHYApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "GIPHYApp/Supporting Files/GIPHYApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -789,10 +781,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 52PJTX65T3;
+				DEVELOPMENT_TEAM = DD37QA6NV9;
 				INFOPLIST_FILE = "$(SRCROOT)/GIPHYApp/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kruberlick.GIPHYApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sasha.GIPHYApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "GIPHYApp/Supporting Files/GIPHYApp-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;

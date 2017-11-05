@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="On2-1y-5Fo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="On2-1y-5Fo">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -59,11 +59,41 @@
                     <navigationItem key="navigationItem" title="Browse GIFs" id="3f5-vI-7yx"/>
                     <connections>
                         <outlet property="collectionView" destination="rXj-eg-90m" id="KgQ-r6-TQi"/>
+                        <segue destination="3Bf-7k-glu" kind="show" identifier="ViewGIF" id="0g5-Ld-hCl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9F9-Qg-SrZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="981" y="114"/>
+        </scene>
+        <!--ViewGIF View Controller-->
+        <scene sceneID="Gby-op-5S9">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="3Bf-7k-glu" customClass="ViewGIFViewController" customModule="GIPHYApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="7LC-qk-ze2">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HTe-Cn-oDo" customClass="FLAnimatedImageView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="HTe-Cn-oDo" secondAttribute="trailing" id="AeP-24-peK"/>
+                            <constraint firstItem="HTe-Cn-oDo" firstAttribute="leading" secondItem="7LC-qk-ze2" secondAttribute="leading" id="JqL-OP-5Vz"/>
+                            <constraint firstItem="HTe-Cn-oDo" firstAttribute="top" secondItem="7LC-qk-ze2" secondAttribute="top" id="KwO-Qu-PiK"/>
+                            <constraint firstAttribute="bottom" secondItem="HTe-Cn-oDo" secondAttribute="bottom" id="a80-hb-48z"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="0ac-EM-Exg"/>
+                    </view>
+                    <connections>
+                        <outlet property="animatedImageView" destination="HTe-Cn-oDo" id="oyw-dM-icH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xIv-QU-5wQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1733" y="113"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="RO9-a6-aZN">

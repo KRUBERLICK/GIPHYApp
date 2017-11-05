@@ -17,13 +17,13 @@ protocol ViewGIFBusinessLogic {
 }
 
 protocol ViewGIFDataStore {
-    //var name: String { get set }
+    var gif: ViewGIF.DisplayGIF.ViewModel { get set }
 }
 
 class ViewGIFInteractor: ViewGIFBusinessLogic, ViewGIFDataStore {
     var presenter: ViewGIFPresentationLogic?
     var worker: ViewGIFWorker?
-    //var name: String = ""
+    var gif: ViewGIF.DisplayGIF.ViewModel = ViewGIF.DisplayGIF.ViewModel(gif: nil)
     
     // MARK: Do something
     

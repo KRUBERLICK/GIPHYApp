@@ -16,7 +16,6 @@ import RxCocoa
 import Alamofire
 
 class BrowseGIFsWorker {
-
     private let localStore: GIFsStoreProtocol
     private let webService: GIPHYAPIServiceProtocol
     private let localURLProvider: LocalURLProvider
@@ -84,10 +83,7 @@ class BrowseGIFsWorker {
                 strongSelf.currentOffset += strongSelf.currentLimit
                 let gifs = response.data.map { GIF(id: $0.id, url: $0.url, localGIFData: $0.localGIFData, query: strongSelf.query) }
                 if shouldReplaceContents {
-                    _ = strongSelf.localStore.fetchGIFs()
-                        .subscribe(onNext: { [weak self] results in
-                            _ = self?.localStore.clearStore().subscribe()
-                        })
+                    _ = strongSelf.localStore.deleteGIFs(withQuery: strongSelf.query).subscribe()
                     strongSelf.contents.value = gifs
                 }
                 else {
