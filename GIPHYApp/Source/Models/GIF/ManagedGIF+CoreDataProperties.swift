@@ -14,5 +14,6 @@ extension ManagedGIF {
     @nonobjc static var entityName = "ManagedGIF"
     @NSManaged public var id: String?
     @NSManaged public var url: URL?
-    @NSManaged public var localURL: URL?
+    @NSManaged public var localGIFData: Data?
+    @NSManaged public var query: String?
 }

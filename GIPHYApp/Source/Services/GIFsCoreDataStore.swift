@@ -80,6 +80,22 @@ class GIFsCoreDataStore: GIFsStoreProtocol {
         }
     }
 
+    func fetchGIFs(withQuery query: String) -> Observable<[GIF]> {
+        return Observable.create { observer in
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: ManagedGIF.entityName)
+            fetchRequest.predicate = NSPredicate(format: "query == %@", query)
+            do {
+                let results = try self.managedObjectContext.fetch(fetchRequest) as! [ManagedGIF]
+                let gifs = results.map { $0.toGIF() }
+                observer.onNext(gifs)
+                observer.onCompleted()
+            } catch let error {
+                observer.onError(error)
+            }
+            return Disposables.create()
+        }
+    }
+
     func deleteGIF(withID gifID: String) -> Observable<Bool> {
         return Observable.create { observer in
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: ManagedGIF.entityName)

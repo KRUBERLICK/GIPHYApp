@@ -11,6 +11,41 @@ import FLAnimatedImage
 
 class BrowseGIFCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var gifImageView: FLAnimatedImageView!
+    var onLocalGIFDataRetrieved: ((Data) -> ())?
+
+    var gif: GIF? {
+        didSet {
+            guard let gif = gif else {
+                return
+            }
+            if let localGIFData = gif.localGIFData {
+                DispatchQueue.main.async {
+                    self.gifImageView.animatedImage = FLAnimatedImage(animatedGIFData: localGIFData)
+                    self.loadingIndicatorView.isHidden = true
+                    self.gifImageView.isHidden = false
+                }
+            }
+            else {
+                DispatchQueue.main.async {
+                    self.gifImageView.isHidden = true
+                    self.loadingIndicatorView.isHidden = false
+                }
+                DispatchQueue(label: "com.kruberlick.GIPHYApp.GIFDownloadQueue", qos: .utility).async {
+                    do {
+                        let gifData = try Data(contentsOf: gif.url!)
+                        DispatchQueue.main.async {
+                            self.onLocalGIFDataRetrieved?(gifData)
+                            self.loadingIndicatorView.isHidden = true
+                            self.gifImageView.animatedImage = FLAnimatedImage(animatedGIFData: gifData)
+                            self.gifImageView.isHidden = false
+                        }
+                    } catch let error {
+                        print("Error reading gif data from url \(gif.url!), error: \(error)")
+                    }
+                }
+            }
+        }
+    }
 
     private(set) lazy var loadingIndicatorView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(activityIndicatorStyle: .gray)

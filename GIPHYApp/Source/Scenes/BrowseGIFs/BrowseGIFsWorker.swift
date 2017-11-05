@@ -16,7 +16,7 @@ import RxCocoa
 import Alamofire
 
 class BrowseGIFsWorker {
-    private let cache: GIFsCacheProtocol
+
     private let localStore: GIFsStoreProtocol
     private let webService: GIPHYAPIServiceProtocol
     private let localURLProvider: LocalURLProvider
@@ -30,8 +30,7 @@ class BrowseGIFsWorker {
     private var totalCount = 0
     private var fetchInProgress = false
 
-    init(cache: GIFsCacheProtocol, localStore: GIFsStoreProtocol, webService: GIPHYAPIServiceProtocol, localURLProvider: LocalURLProvider, gifUpdatesBroadcast: GIFUpdatesBroadcast) {
-        self.cache = cache
+    init(localStore: GIFsStoreProtocol, webService: GIPHYAPIServiceProtocol, localURLProvider: LocalURLProvider, gifUpdatesBroadcast: GIFUpdatesBroadcast) {
         self.localStore = localStore
         self.webService = webService
         self.localURLProvider = localURLProvider
@@ -44,6 +43,7 @@ class BrowseGIFsWorker {
                 if let index = strongSelf.contents.value.index(of: gif) {
                     strongSelf.contents.value[index] = gif
                 }
+                _ = strongSelf.localStore.updateGIF(gif).subscribe()
             })
             .disposed(by: gifUpdatesBroadcastDisposeBag)
     }
@@ -82,34 +82,38 @@ class BrowseGIFsWorker {
                 }
                 strongSelf.totalCount = response.pagination.totalCount
                 strongSelf.currentOffset += strongSelf.currentLimit
+                let gifs = response.data.map { GIF(id: $0.id, url: $0.url, localGIFData: $0.localGIFData, query: strongSelf.query) }
                 if shouldReplaceContents {
                     _ = strongSelf.localStore.fetchGIFs()
                         .subscribe(onNext: { [weak self] results in
-                            guard let strongSelf = self else {
-                                return
-                            }
-                            for gif in results {
-                                strongSelf.cache.removeCachedGIF(gif)
-                            }
-                            _ = strongSelf.localStore.clearStore().subscribe()
+                            _ = self?.localStore.clearStore().subscribe()
                         })
-                    strongSelf.contents.value = response.data
+                    strongSelf.contents.value = gifs
                 }
                 else {
-                    strongSelf.contents.value += response.data
+                    strongSelf.contents.value += gifs
                 }
-                for gif in response.data {
+                for gif in gifs {
                     _ = strongSelf.localStore.addGIF(gif).subscribe()
                 }
                 strongSelf.fetchInProgress = false
             }, onError: { [weak self] error in
-                print("Error during fetch: \(error)")
-                self?.fetchInProgress = false
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.localStore.fetchGIFs(withQuery: strongSelf.query)
+                    .subscribe(onNext: { [weak self] gifs in
+                        guard let strongSelf = self else {
+                            return
+                        }
+                        strongSelf.contents.value = gifs
+                        strongSelf.fetchInProgress = false
+                    }, onError: { [weak self] error in
+                        print("Error during fetch: \(error)")
+                        self?.fetchInProgress = false
+                    })
+                    .disposed(by: strongSelf.disposeBag)
             })
             .disposed(by: disposeBag)
-    }
-
-    func cacheGIFData(for gif: GIF) {
-        cache.cacheGIF(gif)
     }
 }

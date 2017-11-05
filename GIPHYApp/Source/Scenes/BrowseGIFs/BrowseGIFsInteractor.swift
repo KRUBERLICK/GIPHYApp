@@ -16,7 +16,6 @@ import RxSwift
 protocol BrowseGIFsBusinessLogic {
     func reloadFeed(request: BrowseGIFs.FetchGIFs.Request)
     func fetchNextPage()
-    func cacheGIF(_ gif: GIF)
 }
 
 protocol BrowseGIFsDataStore {
@@ -58,16 +57,4 @@ class BrowseGIFsInteractor: BrowseGIFsBusinessLogic, BrowseGIFsDataStore {
     func fetchNextPage() {
         worker?.requestNextChunk()
     }
-
-    func cacheGIF(_ gif: GIF) {
-        worker?.cacheGIFData(for: gif)
-    }
-    
-//    func doSomething(request: BrowseGIFs.Something.Request) {
-//        worker = BrowseGIFsWorker()
-//        worker?.doSomeWork()
-//        
-//        let response = BrowseGIFs.Something.Response()
-//        presenter?.presentSomething(response: response)
-//    }
 }

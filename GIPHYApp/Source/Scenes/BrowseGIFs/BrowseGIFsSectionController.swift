@@ -30,23 +30,16 @@ class BrowseGIFsSectionController: ListSectionController {
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext!.dequeueReusableCellFromStoryboard(withIdentifier: "GIFCell", for: self, at: index) as! BrowseGIFCollectionViewCell
-        let url = viewModel.gif.localURL ?? viewModel.gif.url
-        if let url = url {
-            cell.gifImageView.isHidden = true
-            cell.loadingIndicatorView.isHidden = false
-            DispatchQueue(label: "com.kruberlick.GIPHYApp.GIFDownloadQueue", qos: .utility).async {
-                do {
-                    let gifData = try Data(contentsOf: url)
-                    DispatchQueue.main.async {
-                        cell.loadingIndicatorView.isHidden = true
-                        cell.gifImageView.animatedImage = FLAnimatedImage(animatedGIFData: gifData)
-                        cell.gifImageView.isHidden = false
-                    }
-                } catch let error {
-                    print("Error reading gif data from url \(url), error: \(error)")
-                }
+        let gifUpdatesBroadcast = dependencies.gifUpdatesBroadcast
+        cell.onLocalGIFDataRetrieved = { [weak self] localGIFData in
+            guard let strongSelf = self else {
+                return
             }
+            var updatedGIF = strongSelf.viewModel.gif
+            updatedGIF.localGIFData = localGIFData
+            gifUpdatesBroadcast.update(gif: updatedGIF)
         }
+        cell.gif = viewModel.gif
         return cell
     }
 
@@ -62,6 +55,6 @@ class BrowseGIFsSectionController: ListSectionController {
     }
 
     struct Dependencies {
-
+        let gifUpdatesBroadcast: GIFUpdatesBroadcast
     }
 }

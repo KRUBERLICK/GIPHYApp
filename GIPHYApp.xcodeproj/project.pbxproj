@@ -23,8 +23,6 @@
 		5B4410251FAB3A4F0036EF5E /* LocalURLProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4410241FAB3A4F0036EF5E /* LocalURLProvider.swift */; };
 		5B4410271FAB3B0F0036EF5E /* GIFsCoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4410261FAB3B0F0036EF5E /* GIFsCoreDataStore.swift */; };
 		5B47CA8A1FAC8BB4003E22BE /* GIPHYApiServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B47CA891FAC8BB4003E22BE /* GIPHYApiServiceProtocol.swift */; };
-		5B47CA8C1FACAF7D003E22BE /* GIFsCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B47CA8B1FACAF7D003E22BE /* GIFsCacheProtocol.swift */; };
-		5B47CA8E1FACAFCE003E22BE /* GIFsCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B47CA8D1FACAFCE003E22BE /* GIFsCache.swift */; };
 		5B5D19CC1FAB75A900841D06 /* GIFsCoreDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5D19CB1FAB75A900841D06 /* GIFsCoreDataStoreTests.swift */; };
 		5B7C0F5B1FACBFBC007A172E /* BrowseGIFsSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C0F5A1FACBFBC007A172E /* BrowseGIFsSectionController.swift */; };
 		5B7C0F5D1FACD606007A172E /* GIFUpdatesBroadcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C0F5C1FACD606007A172E /* GIFUpdatesBroadcast.swift */; };
@@ -72,8 +70,6 @@
 		5B4410241FAB3A4F0036EF5E /* LocalURLProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalURLProvider.swift; sourceTree = "<group>"; };
 		5B4410261FAB3B0F0036EF5E /* GIFsCoreDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFsCoreDataStore.swift; sourceTree = "<group>"; };
 		5B47CA891FAC8BB4003E22BE /* GIPHYApiServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIPHYApiServiceProtocol.swift; sourceTree = "<group>"; };
-		5B47CA8B1FACAF7D003E22BE /* GIFsCacheProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFsCacheProtocol.swift; sourceTree = "<group>"; };
-		5B47CA8D1FACAFCE003E22BE /* GIFsCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFsCache.swift; sourceTree = "<group>"; };
 		5B5D19C11FAB756E00841D06 /* GIPHYAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GIPHYAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B5D19C51FAB756E00841D06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B5D19CB1FAB75A900841D06 /* GIFsCoreDataStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFsCoreDataStoreTests.swift; sourceTree = "<group>"; };
@@ -144,8 +140,6 @@
 				5B4410261FAB3B0F0036EF5E /* GIFsCoreDataStore.swift */,
 				5BF3C0B51FAB848600CCC7FA /* GIPHYAPIService.swift */,
 				5B47CA891FAC8BB4003E22BE /* GIPHYApiServiceProtocol.swift */,
-				5B47CA8B1FACAF7D003E22BE /* GIFsCacheProtocol.swift */,
-				5B47CA8D1FACAFCE003E22BE /* GIFsCache.swift */,
 				5B7C0F5C1FACD606007A172E /* GIFUpdatesBroadcast.swift */,
 			);
 			path = Services;
@@ -578,7 +572,6 @@
 				5BD174CA1FACB40600C8E710 /* BrowseGIFCollectionViewCell.swift in Sources */,
 				5B7C0F5B1FACBFBC007A172E /* BrowseGIFsSectionController.swift in Sources */,
 				5BAC9CF51FAB2F8F004A4468 /* GIF.swift in Sources */,
-				5B47CA8C1FACAF7D003E22BE /* GIFsCacheProtocol.swift in Sources */,
 				5B4410271FAB3B0F0036EF5E /* GIFsCoreDataStore.swift in Sources */,
 				5B4410211FAB382D0036EF5E /* ManagedGIF+CoreDataClass.swift in Sources */,
 				5B440FF31FAB31EA0036EF5E /* GIPHYApp.xcdatamodeld in Sources */,
@@ -589,7 +582,6 @@
 				5B4410251FAB3A4F0036EF5E /* LocalURLProvider.swift in Sources */,
 				5B29D44E1FAB3C3E00B96665 /* GIFsStoreProtocol.swift in Sources */,
 				5BAC9CF21FAB1CCA004A4468 /* BrowseGIFsInteractor.swift in Sources */,
-				5B47CA8E1FACAFCE003E22BE /* GIFsCache.swift in Sources */,
 				5B4410031FAB32E60036EF5E /* ViewGIFViewController.swift in Sources */,
 				5BAC9CEE1FAB1CCA004A4468 /* BrowseGIFsWorker.swift in Sources */,
 				5BAC9CF01FAB1CCA004A4468 /* BrowseGIFsModels.swift in Sources */,

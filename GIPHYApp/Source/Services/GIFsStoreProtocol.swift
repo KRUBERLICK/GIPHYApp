@@ -11,6 +11,7 @@ import RxSwift
 
 protocol GIFsStoreProtocol {
     func fetchGIFs() -> Observable<[GIF]>
+    func fetchGIFs(withQuery query: String) -> Observable<[GIF]>
     func addGIF(_ gif: GIF) -> Observable<Bool>
     func deleteGIF(withID gifID: String) -> Observable<Bool>
     func updateGIF(_ gif: GIF) -> Observable<Bool>

@@ -34,6 +34,8 @@ class BrowseGIFsViewController: ContentViewController, BrowseGIFsDisplayLogic {
     }
     
     // MARK: Setup
+
+    private var gifUpdatesBroadcast: GIFUpdatesBroadcast!
     
     private func setup() {
         let viewController = self
@@ -47,9 +49,9 @@ class BrowseGIFsViewController: ContentViewController, BrowseGIFsDisplayLogic {
         let localURLProvider = LocalURLProvider()
         let localStore = GIFsCoreDataStore(localURLProvider: localURLProvider)
         let webService = GIPHYAPIService()
-        let gifUpdatesBroadcast = GIFUpdatesBroadcast()
+        gifUpdatesBroadcast = GIFUpdatesBroadcast()
 
-        interactor.worker = BrowseGIFsWorker(cache: GIFsCache(localStore: localStore, localURLProvider: localURLProvider, gifUpdatesBroadcast: gifUpdatesBroadcast), localStore: localStore, webService: webService, localURLProvider: localURLProvider, gifUpdatesBroadcast: gifUpdatesBroadcast)
+        interactor.worker = BrowseGIFsWorker(localStore: localStore, webService: webService, localURLProvider: localURLProvider, gifUpdatesBroadcast: gifUpdatesBroadcast)
         
         presenter.viewController = viewController
         router.viewController = viewController
@@ -101,7 +103,7 @@ class BrowseGIFsViewController: ContentViewController, BrowseGIFsDisplayLogic {
     // MARK: Fetch GIFs
 
     func reloadFeed() {
-        let query = "beer"
+        let query = ""
         let request = BrowseGIFs.FetchGIFs.Request(query: query)
         interactor?.reloadFeed(request: request)
     }
@@ -127,37 +129,15 @@ extension BrowseGIFsViewController: ListAdapterDataSource {
 
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
         if let object = object as? BrowseGIFs.FetchGIFs.ViewModel.Item {
-            let sc = BrowseGIFsSectionController(viewModel: object, dependencies: BrowseGIFsSectionController.Dependencies())
-            sc.displayDelegate = self
-            return sc
+            return BrowseGIFsSectionController(viewModel: object, dependencies: BrowseGIFsSectionController.Dependencies(gifUpdatesBroadcast: gifUpdatesBroadcast))
         }
         fatalError("Unexpected object: \(object)")
     }
 
     func emptyView(for listAdapter: ListAdapter) -> UIView? {
-        let label = UILabel(frame: .zero)
-        label.text = "Nothing to show"
-        return label
-    }
-}
-
-extension BrowseGIFsViewController: ListDisplayDelegate {
-    func listAdapter(_ listAdapter: ListAdapter, willDisplay sectionController: ListSectionController) {
-        guard let sc = sectionController as? BrowseGIFsSectionController, sc.viewModel.gif.localURL == nil else {
-            return
-        }
-        interactor?.cacheGIF(sc.viewModel.gif)
-    }
-
-    func listAdapter(_ listAdapter: ListAdapter, didEndDisplaying sectionController: ListSectionController) {
-
-    }
-
-    func listAdapter(_ listAdapter: ListAdapter, willDisplay sectionController: ListSectionController, cell: UICollectionViewCell, at index: Int) {
-
-    }
-
-    func listAdapter(_ listAdapter: ListAdapter, didEndDisplaying sectionController: ListSectionController, cell: UICollectionViewCell, at index: Int) {
-
+//        let label = UILabel(frame: .zero)
+//        label.text = "Nothing to show"
+//        return label
+        return nil
     }
 }

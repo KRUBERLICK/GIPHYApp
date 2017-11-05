@@ -41,7 +41,7 @@ enum BrowseGIFs {
                         return false
                     }
 
-                    return object.gif == self.gif// && object.gif.localURL == self.gif.localURL
+                    return object.gif == self.gif
                 }
             }
 
